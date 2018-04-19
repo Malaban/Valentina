@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.activiti.dao.LeaveDao">
+
+	<resultMap type="Leave" id="LeaveResult">
+		<result property="id" column="id_" />
+		<result property="leaveDate" column="leaveDate" />
+		<result property="leaveDays" column="leaveDays" />
+		<result property="leaveReason" column="leaveReason" />
+		<result property="state" column="state" />
+		<result property="processInstanceId" column="processInstanceId" />
+		<association property="user" column="userId"
+			select="com.java.activiti.dao.UserDao.findById" />
+	</resultMap>
+
+	<select id="leavePage" parameterType="Map" resultMap="LeaveResult">
+		 select * from (select t.* ,ROWNUM rn from t_leave t where flag = '1' 
+      and ROWNUM &lt;= (to_number(${pageSize})*to_number(${pageIndex}+1))
+     and ROWNUM &gt;((to_number(${pageIndex}+1)-1)*to_number(${pageSize}))
+     order by leaveDate desc 
+     )
+	</select>
+	<!-- select * from t_leave
+		<where>
+			"flag" = '1'
+			<if test="userId!=null and userId!='' ">
+				and userId = #{userId}
+			</if>
+		</where>
+		order by leaveDate desc
+		<if test="pageIndex!=null and pageSize!=null">
+			limit #{pageIndex},#{pageSize}
+		</if> -->
+	
+  			                        
+
+	<!-- <select id="leaveCount" parameterType="Map" resultType="int"> select 
+		count(1) from t_leave <where> flag = '1' <if test="userId!=null and userId!='' 
+		"> and userId = #{userId} </if> </where> </select> -->
+
+	<select id="leaveCount" parameterType="Map" resultType="int">
+		select count(1) from t_leave
+		where
+		flag = '1'
+		<if test="userId!=null and userId!='' ">
+			and userId = #{userId}
+		</if>
+	</select>
+
+	<insert id="addLeave" parameterType="Leave">
+		insert into t_leave
+		values('',#{user.id},sysdate,#{leaveDays},#{leaveReason},#{state},#{processInstanceId},#{flag})
+	</insert>
+
+	<delete id="deleteLeave" parameterType="Leave">
+		delete from t_leave where
+		id = #{id}
+	</delete>
+
+	<select id="findById" parameterType="String" resultMap="LeaveResult">
+		select *
+		from t_leave where id=#{id}
+	</select>
+	<select id="getLeaveByTaskId" parameterType="String" resultMap="LeaveResult">
+		select * from t_leave
+		where processInstanceId=#{processInstanceId}
+	</select>
+	<update id="updateLeave" parameterType="Leave">
+		update t_leave
+		<set>
+			<if test="state!=null and state!='' ">
+				state=#{state},
+			</if>
+			<if test="processInstanceId!=null and processInstanceId!='' ">
+				processInstanceId=#{processInstanceId},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<update id="updateLeaves" parameterType="Leave">
+		update t_leave
+		set flag=#{flag}
+		where id=#{id}
+	</update>
+
+	<select id="findByExecutionId" parameterType="Leave">
+		select
+		t.PROC_DEF_ID_ from act_ru_execution t where id_ = #{id_}
+	</select>
+
+	<select id="findByProcessInstanceId" parameterType="String"
+		resultType="String">
+		select t.ID_ from act_ru_task t where PROC_INST_ID_ =
+		#{PROC_INST_ID_}
+	</select>
+
+	<delete id="deleteprocessInstanceIds" parameterType="String">
+		delete from
+		act_ru_identitylink where task_id_ = #{processInstanceId}
+	</delete>
+
+	<delete id="deleteprocessInstanceId" parameterType="String">
+		delete from
+		act_ru_task where PROC_INST_ID_ = #{processInstanceId}
+	</delete>
+
+	<delete id="deleteprocessInstanceIdess" parameterType="String">
+		delete
+		from act_ru_variable where PROC_INST_ID_ = #{processInstanceId}
+	</delete>
+
+	<delete id="deleteprocessInstanceIdsss" parameterType="String">
+		delete
+		from act_ru_identitylink where PROC_INST_ID_ = #{processInstanceId}
+	</delete>
+
+	<delete id="deleteprocessInstanceIdes" parameterType="String">
+		delete from
+		act_ru_execution where PROC_INST_ID_ = #{processInstanceId}
+	</delete>
+
+	<select id="findPngById" parameterType="String" resultType="String">
+		select t.PROC_INST_ID_ from act_hi_taskinst t where ID_ = #{ID_}
+	</select>
+
+	<select id="findTaskByTaskId" parameterType="String" resultType="String">
+		select distinct ID_ from ACT_RU_TASK where PROC_INST_ID_ =
+		(select PROC_INST_ID_ from act_hi_taskinst where id_ = #{taskId}) and rownum=1
+	</select>
+</mapper> 

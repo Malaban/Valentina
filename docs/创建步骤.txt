@@ -1,0 +1,21 @@
+﻿1.画图工具
+ blog.csdn.NET/lvsehuoyan/article/details/38408649
+2.画图步骤
+ http://blog.csdn.net/ochangwen/article/details/51908079 
+3.数据库结构
+  http://blog.csdn.net/rosten/article/details/35220867 
+  http://www.cnblogs.com/llzgzljl/archive/2013/10/07/3356108.html 
+4.版本升级（未测）
+  http://www.cnblogs.com/sheeva/p/4655354.html 
+5.activiti视频
+  http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed4fece763105392230e54f7386d8a8d4b3593c45f93130a1c187bb0e577654f19929f21221caf4e5cfeb56b32610c73e6dd93cc119be085295f9f5647676a875663d70edfcc&p=cb6ec54ad6c346e444fbcc2d02149d&newp=92769a4797d911a058ed936d5c0acf231610db2151d6d5136b82c825d7331b001c3bbfb423241703d8ce766403a54859e0f73d7536032ba3dda5c91d9fb4c57479c93d&user=baidu&fm=sc&query=activiti%CA%D3%C6%B5&qid=9419b5d30001a927&p1=1 
+6.表中t_leave,添加一flag字段
+  alter table t_leave add  column  flag varchar(10) not Null;且值设为1
+7.项目SVN地址
+  svn://10.128.90.179/Activiti-LFP_Oracle
+  liuj/liuj0175
+8.比较不错的关于activiti的文章
+  http://blog.csdn.net/zjx86320/article/details/50223005
+9.与现有的用户权限集成相关
+  http://www.kafeitu.me/activiti/2012/04/23/synchronize-or-redesign-user-and-role-for-activiti.html
+  http://blog.csdn.net/tang_huan_11/article/details/46009989
