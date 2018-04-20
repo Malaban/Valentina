@@ -19,3 +19,4 @@
 9.与现有的用户权限集成相关
   http://www.kafeitu.me/activiti/2012/04/23/synchronize-or-redesign-user-and-role-for-activiti.html
   http://blog.csdn.net/tang_huan_11/article/details/46009989
+10：
